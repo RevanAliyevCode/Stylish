@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Log In";
+    ViewData["Header"] = "Log In";
+    ViewData["Action"] = "Login";
+
+    Layout = "_AuthLayout";
+
+    string? returnUrl = Context.Request.Query["ReturnUrl"];
+}
+@using IdentityApp.Models.Account
+@model LoginVM
+
+
+
+<input asp-for="ReturnUrl" type="hidden" value="@returnUrl">
+
+<div>
+    <label asp-for="Email">Email</label>
+    <input asp-for="Email" placeholder="Write email" />
+    <span asp-validation-for="Email" style="color: red;"></span>
+</div>
+
+<div>
+    <label asp-for="Password">Password</label>
+    <input asp-for="Password" placeholder="Write password" />
+    <span asp-validation-for="Email" style="color: red;"></span>
+</div>
+
+<div asp-validation-summary="All" style="color: red;"></div>
+
+<button>Log In</button>
+<p>Don't have an account <a href="~/account/register">Sign up</a></p>

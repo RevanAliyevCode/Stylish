@@ -1,0 +1,33 @@
+﻿@using IdentityApp.Areas.Admin.Models.Users
+@model List<UsersVM>
+
+<div class="p-4">
+    <a type="button" class="btn btn-primary mb-4" asp-controller="Dashboard" asp-action="Create">Create</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Email</td>
+                    <td>@foreach (var role in item.Roles) {
+                        <p>@role</p>
+                        }</td>
+                    <td class="d-flex">
+                        <a type="button" class="btn btn-primary mr-2" asp-controller="Dashboard" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a type="button" class="btn btn-primary mr-2" asp-controller="Dashboard" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                        <form asp-controller="Dashboard" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Sign Up";
+    ViewData["Header"] = "Sign Up";
+    ViewData["Action"] = "Register";
+
+    Layout = "_AuthLayout";
+
+}
+@using IdentityApp.Models.Account
+@model SignupVM
+
+
+
+
+<div>
+    <label asp-for="Email">Email</label>
+    <input asp-for="Email" placeholder="Write email" />
+    <span asp-validation-for="Email" style="color: red;"></span>
+</div>
+
+<div>
+    <label asp-for="Password">Password</label>
+    <input asp-for="Password" placeholder="Write password" />
+    <span asp-validation-for="Password" style="color: red;"></span>
+</div>
+
+<div>
+    <label asp-for="ConfirmPassword">Password Confirm</label>
+    <input asp-for="ConfirmPassword" placeholder="Write conform password" />
+    <span asp-validation-for="ConfirmPassword" style="color: red;"></span>
+</div>
+
+<div asp-validation-summary="All" style="color: red;"></div>
+
+<button>Sign up</button>
+
+<p>Do you have an account <a href="~/account/login">Log in</a></p>

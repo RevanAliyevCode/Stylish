@@ -1,0 +1,22 @@
+﻿@using IdentityApp.Areas.Admin.Models.Users
+@model UpdateUserVM
+
+<form asp-controller="Dashboard" asp-action="Update" method="post" class="p-4">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input class="form-control" asp-for="Email" placeholder="Write email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="NewPassword" class="form-label">Password</label>
+        <input class="form-control" asp-for="NewPassword" placeholder="Write new password">
+        <span asp-validation-for="NewPassword" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Roles" class="form-label">Roles</label>
+        <select class="form-control" asp-for="RoleIds" asp-items="Model.Roles" multiple></select>
+        <span asp-validation-for="Roles" class="text-danger"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
