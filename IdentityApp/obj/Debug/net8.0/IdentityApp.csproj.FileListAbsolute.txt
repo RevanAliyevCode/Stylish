@@ -137,3 +137,8 @@ C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\zh-Hant\Micr
 C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\obj\Debug\net8.0\IdentityApp.csproj.AssemblyReference.cache
 C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\obj\Debug\net8.0\Identity.63BAAB1A.Up2Date
+C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\MailKit.dll
+C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\MimeKit.dll
+C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\NETCore.MailKit.dll
+C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+C:\Users\Ravan Aliyev\Desktop\Identity\IdentityApp\obj\Debug\net8.0\IdentityApp.sourcelink.json
