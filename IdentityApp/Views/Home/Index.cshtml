@@ -6,3 +6,23 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<form asp-controller="Home" asp-action="Subscribe">
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" placeholder="Write email" />
+    <span style="color: red;">@ViewData["ErrorMessage"]</span>
+    <button>Subscribe</button>
+</form>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <a asp-controller="Account" asp-action="Logout">Logout</a>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <a asp-controller="Account" asp-action="Login">Login</a>
+    </div>
+}

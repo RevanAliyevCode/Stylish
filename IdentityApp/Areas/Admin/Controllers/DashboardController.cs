@@ -1,4 +1,5 @@
 using IdentityApp.Areas.Admin.Models.Users;
+using IdentityApp.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,10 @@ namespace ZayShopMVC.Areas.Admin.Controllers
     [Area("Admin")]
     public class DashboardController : Controller
     {
-        readonly UserManager<IdentityUser> _userManager;
+        readonly UserManager<AppUser> _userManager;
         readonly RoleManager<IdentityRole> _roleManager;
 
-        public DashboardController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public DashboardController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -70,7 +71,7 @@ namespace ZayShopMVC.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = new IdentityUser
+            var user = new AppUser
             {
                 Email = model.Email,
                 UserName = model.Email

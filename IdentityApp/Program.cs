@@ -1,4 +1,5 @@
 using IdentityApp.Data;
+using IdentityApp.Data.Entities;
 using IdentityApp.Utilities.Email;
 using IdentityApp.Utilities.Email.Abstracts;
 using IdentityApp.Utilities.Email.Concrets;
@@ -12,7 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<IdentityContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
@@ -40,7 +41,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 using var scope = app.Services.CreateScope();
-var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 DbInitilazer.Seed(userManager, roleManager);
 

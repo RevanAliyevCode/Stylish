@@ -1,4 +1,5 @@
 using System;
+using IdentityApp.Data.Entities;
 using IdentityApp.Models.Account;
 using IdentityApp.Utilities.Email.Abstracts;
 using IdentityApp.Utilities.Email.Concrets;
@@ -9,11 +10,11 @@ namespace IdentityApp.Controllers;
 
 public class AccountController : Controller
 {
-    readonly SignInManager<IdentityUser> _signInManager;
+    readonly SignInManager<AppUser> _signInManager;
     readonly IEmailSender _emailSender;
-    readonly UserManager<IdentityUser> _userManager;
+    readonly UserManager<AppUser> _userManager;
 
-    public AccountController(SignInManager<IdentityUser> signInManager, IEmailSender emailSender, UserManager<IdentityUser> userManager)
+    public AccountController(SignInManager<AppUser> signInManager, IEmailSender emailSender, UserManager<AppUser> userManager)
     {
         _signInManager = signInManager;
         _emailSender = emailSender;
@@ -31,7 +32,7 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View();
 
-        var user = new IdentityUser
+        var user = new AppUser
         {
             UserName = model.Email,
             Email = model.Email

@@ -1,0 +1,8 @@
+﻿<form asp-controller="SendNews" asp-action="SendMail" method="post" class="p-4">
+    <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" id="message" name="message" placeholder="Write message"></textarea>
+        <span class="text-danger">@ViewData["ErrorMessage"]</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>

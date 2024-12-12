@@ -1,11 +1,12 @@
 using System;
+using IdentityApp.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityApp.Data;
 
 public static class DbInitilazer
 {
-    public static void Seed(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public static void Seed(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         SeedRoles(roleManager);
         SeedAdmin(userManager, roleManager);
@@ -27,11 +28,11 @@ public static class DbInitilazer
         }
     }
 
-    private static void SeedAdmin(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    private static void SeedAdmin(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)
         {
-            var admin = new IdentityUser
+            var admin = new AppUser
             {
                 UserName = "admin@gmail.com",
                 Email = "admin@gmail.com",
