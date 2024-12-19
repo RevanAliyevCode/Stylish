@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GzmtnSN7f5A=",
+  "dgSpecHash": "jV79WxbDV9s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ravan Aliyev\\Desktop\\Identity\\IdentityApp\\IdentityApp.csproj",
+  "projectFilePath": "C:\\Users\\Ravan Aliyev\\Desktop\\stylish\\IdentityApp\\StylishApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ravan Aliyev\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Ravan Aliyev\\.nuget\\packages\\mailkit\\1.18.0\\mailkit.1.18.0.nupkg.sha512",

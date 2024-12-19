@@ -8706,11 +8706,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ravan Aliyev\\Desktop\\Identity\\IdentityApp\\IdentityApp.csproj",
-      "projectName": "IdentityApp",
-      "projectPath": "C:\\Users\\Ravan Aliyev\\Desktop\\Identity\\IdentityApp\\IdentityApp.csproj",
+      "projectUniqueName": "C:\\Users\\Ravan Aliyev\\Desktop\\stylish\\IdentityApp\\StylishApp.csproj",
+      "projectName": "StylishApp",
+      "projectPath": "C:\\Users\\Ravan Aliyev\\Desktop\\stylish\\IdentityApp\\StylishApp.csproj",
       "packagesPath": "C:\\Users\\Ravan Aliyev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ravan Aliyev\\Desktop\\Identity\\IdentityApp\\obj\\",
+      "outputPath": "C:\\Users\\Ravan Aliyev\\Desktop\\stylish\\IdentityApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
