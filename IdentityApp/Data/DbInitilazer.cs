@@ -1,6 +1,6 @@
 using System;
-using IdentityApp.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using StylishApp.Data.Entities;
 
 namespace IdentityApp.Data;
 

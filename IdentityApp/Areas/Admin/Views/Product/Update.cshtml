@@ -1,0 +1,64 @@
+﻿@using StylishApp.Areas.Admin.Models.Product
+@model UpdateProductVM
+
+@section Styles {
+    <style>
+        .color-option label {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            transition: border-color 0.3s;
+        }
+
+        .color-option label:hover {
+            border-color: #666;
+        }
+
+        .color-option input[type="checkbox"]:checked+label {
+            border-color: #000;
+            box-shadow: 0 0 5px #000;
+        }
+    </style>
+}
+
+<form enctype="multipart/form-data" asp-controller="Product" asp-action="Update" method="post" class="p-4">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Product name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea type="text" class="form-control" asp-for="Description" placeholder="Product description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Price</label>
+        <input type="number" class="form-control" asp-for="Price" placeholder="Product price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <img src="~/upload/product/@Model.ImageName" alt="@Model.Name" class="mb-3 d-block" height="600" width="400">
+        <label asp-for="ImageFile" class="form-label">Image</label>
+        <input type="file" class="form-control" asp-for="ImageFile" placeholder="Product image">
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Stock" class="form-label">Stock</label>
+        <input type="number" class="form-control" asp-for="Stock" placeholder="Product stock">
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+    <div class="mb-3 color-option">
+        @foreach (var color in Model.AvailableColors)
+        {
+            <input type="checkbox" id="@color.Id" @(Model.ColorIds.Contains(color.Id) ? "checked" : "") name="ColorIds"
+                style="display: none;" class="form-control" value="@color.Id">
+            <label for="@color.Id" style="background-color: @color.Code;" title="@color.Name"></label>
+        }
+        <span asp-validation-for="ColorIds" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

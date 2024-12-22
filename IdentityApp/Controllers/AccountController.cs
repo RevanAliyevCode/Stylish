@@ -1,10 +1,11 @@
 using System;
-using IdentityApp.Data.Entities;
+using IdentityApp.Data;
 using IdentityApp.Models.Account;
 using IdentityApp.Utilities.Email.Abstracts;
 using IdentityApp.Utilities.Email.Concrets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StylishApp.Data.Entities;
 
 namespace IdentityApp.Controllers;
 
@@ -14,11 +15,14 @@ public class AccountController : Controller
     readonly IEmailSender _emailSender;
     readonly UserManager<AppUser> _userManager;
 
-    public AccountController(SignInManager<AppUser> signInManager, IEmailSender emailSender, UserManager<AppUser> userManager)
+    readonly IdentityContext _context;
+
+    public AccountController(SignInManager<AppUser> signInManager, IEmailSender emailSender, UserManager<AppUser> userManager, IdentityContext context)
     {
         _signInManager = signInManager;
         _emailSender = emailSender;
         _userManager = userManager;
+        _context = context;
     }
 
     public IActionResult Register()
@@ -35,8 +39,10 @@ public class AccountController : Controller
         var user = new AppUser
         {
             UserName = model.Email,
-            Email = model.Email
+            Email = model.Email,
         };
+
+
 
         var result = _userManager.CreateAsync(user, model.Password).Result;
 
@@ -49,9 +55,13 @@ public class AccountController : Controller
             return View();
         }
 
+
         var token = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
         var confirmationLink = Url.Action("ConfirmEmail", "Account", new { email = user.Email, token }, Request.Scheme);
         _emailSender.SendEmail(new Message([user.Email], "Confirm your email", confirmationLink));
+
+        _context.Baskets.Add(new Basket { UserId = user.Id });
+        _context.SaveChanges();
 
         return RedirectToAction("Login");
     }

@@ -1,0 +1,238 @@
+﻿@using StylishApp.Models.Cart
+@model CartVM
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/assets/css/cart.css">
+    <style>
+        .close {
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            margin-left: 4rem;
+        }
+    </style>
+}
+
+@{
+    var totalPrice = Model.Items.Sum(i => i.Price * i.Quantity);
+}
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col">
+                        <h4><b>Shopping Cart</b></h4>
+                    </div>
+                    <div class="col align-self-center text-right text-muted" id="item-count">@Model.Items.Count items
+                    </div>
+                </div>
+            </div>
+            @if (Model.Items is null || Model.Items?.Count == 0)
+            {
+                <p>No items in the cart</p>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="~/upload/product/@item.Product.ImageName"></div>
+                            <div class="col">
+                                <div class="row text-muted">@item.Product.Name</div>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="decrement-btn" data-product-id="@item.Id" data-item-price="@item.Price">-</a>
+                                <a href="#" class="border">@item.Quantity</a>
+                                <a href="#" class="increment-btn" data-product-id="@item.Id" data-item-price="@item.Price">+</a>
+                            </div>
+                            <div class="col">
+                                <span style="margin-right: 4rem;">&dollar; @item.Price </span>
+                            </div>
+                            <div class="col product-total-price"><span>&dollar; @(item.Price * item.Quantity)</span>
+                            </div>
+                            <div class="col"><button class="close remove-btn" data-product-id="@item.Id"
+                                    data-item-price="@item.Price" data-item-quantity="@item.Quantity">&#10005;</button></div>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="back-to-shop"><a asp-controller="Home" asp-action="Index">&leftarrow;</a><span
+                    class="text-muted">Back to shop</span></div>
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5><b>Summary</b></h5>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col" style="padding-left:0;">ITEMS <span id="summary-item-count">@Model.Items.Count</span>
+                </div>
+                <div class="col text-right">&dollar; <span id="summary-total-price">@totalPrice</span></div>
+            </div>
+            <form>
+                <p>SHIPPING</p>
+                <select>
+                    <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                </select>
+                <p>GIVE CODE</p>
+                <input id="code" placeholder="Enter your code">
+            </form>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right">&dollar; <span id="final-total-price">@((totalPrice == 0 ? 0 : totalPrice +
+                        5))</span></div>
+            </div>
+            <button class="btn" id="checkout-button">CHECKOUT</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('@ViewBag.StripePublishableKey');
+
+        var checkoutButton = document.getElementById('checkout-button');
+
+        checkoutButton.addEventListener('click', function () {
+            fetch('/payment/createcheckoutsession', {
+                method: 'POST',
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (sessionId) {
+                    return stripe.redirectToCheckout({ sessionId: sessionId.id });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.remove-btn').on("click", function () {
+                var productId = $(this).data("product-id");
+                var itemPrice = $(this).data("item-price");
+                var itemQuantity = $(this).data("item-quantity");
+                var itemRow = $(this).closest('.row.border-top.border-bottom');
+
+                $.ajax({
+                    url: "/Basket/RemoveFromBasket",
+                    type: "POST",
+                    data: { id: productId },
+                    success: function (response) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Successfully removed product from cart.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                itemRow.remove();
+
+                                // Update item count
+                                var itemCount = parseInt($('#item-count').text()) - 1;
+                                $('#item-count').text(itemCount + ' items');
+                                $('#summary-item-count').text(itemCount);
+
+                                // Update total price
+                                var totalPrice = parseFloat($('#summary-total-price').text()) - (itemPrice * itemQuantity);
+                                $('#summary-total-price').text(totalPrice.toFixed(2));
+                                $('#final-total-price').text((totalPrice == 0 ? 0 : totalPrice - 5).toFixed(2));
+                            }
+                        });
+                    },
+                    error: function (xhr) {
+                        var errorMessage = xhr.responseText || 'Something went wrong.';
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            $('.increment-btn').on("click", function () {
+                var productId = $(this).data("product-id");
+                var itemPrice = $(this).data("item-price");
+                var quantityElement = $(this).siblings('.border');
+                var itemQuantity = parseInt(quantityElement.text());
+                var totalPriceElement = $(this).closest('.row.main').find('.product-total-price span');
+
+                $.ajax({
+                    url: "/Basket/IncrementItem",
+                    type: "POST",
+                    data: { id: productId },
+                    success: function (response) {
+                        itemQuantity++;
+                        quantityElement.text(itemQuantity);
+
+                        var totalProductPrice = itemPrice * itemQuantity;
+                        totalPriceElement.text('$ ' + totalProductPrice.toFixed(2));
+
+                        var totalPrice = parseFloat($('#summary-total-price').text()) + itemPrice;
+                        $('#summary-total-price').text(totalPrice.toFixed(2));
+                        $('#final-total-price').text((totalPrice == 0 ? 0 : totalPrice - 5).toFixed(2));
+                    },
+                    error: function (xhr) {
+                        var errorMessage = xhr.responseText || 'Something went wrong.';
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+
+            $('.decrement-btn').on("click", function () {
+                var productId = $(this).data("product-id");
+                var itemPrice = $(this).data("item-price");
+                var quantityElement = $(this).siblings('.border');
+                var itemQuantity = parseInt(quantityElement.text());
+                var totalPriceElement = $(this).closest('.row.main').find('.product-total-price span');
+
+                if (itemQuantity > 1) {
+                    $.ajax({
+                        url: "/Basket/DecrementItem",
+                        type: "POST",
+                        data: { id: productId },
+                        success: function (response) {
+                            itemQuantity--;
+                            quantityElement.text(itemQuantity);
+
+                            var totalProductPrice = itemPrice * itemQuantity;
+                            totalPriceElement.text('$ ' + totalProductPrice.toFixed(2));
+
+                            var totalPrice = parseFloat($('#summary-total-price').text()) - itemPrice;
+                            $('#summary-total-price').text(totalPrice.toFixed(2));
+                            $('#final-total-price').text((totalPrice == 0 ? 0 : totalPrice - 5).toFixed(2));
+                        },
+                        error: function (xhr) {
+                            var errorMessage = xhr.responseText || 'Something went wrong.';
+                            Swal.fire({
+                                title: 'Error!',
+                                text: errorMessage,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

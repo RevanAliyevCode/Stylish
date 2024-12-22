@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="~/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
-
+    @RenderSection("Styles", required: false)
 </head>
 
 <body id="page-top">
@@ -69,6 +69,7 @@
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" asp-controller="Dashboard" asp-action="Index">Users</a>
                         <a class="collapse-item" asp-controller="SendNews" asp-action="Index">Send News</a>
+                        <a class="collapse-item" asp-controller="Product" asp-action="Index">Product</a>
                     </div>
                 </div>
             </li>

@@ -1,9 +1,9 @@
 using IdentityApp.Areas.Admin.Models.Users;
-using IdentityApp.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using StylishApp.Data.Entities;
 
 
 namespace ZayShopMVC.Areas.Admin.Controllers

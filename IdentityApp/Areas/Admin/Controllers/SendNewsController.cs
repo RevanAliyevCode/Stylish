@@ -1,10 +1,10 @@
 using IdentityApp.Areas.Admin.Models.Users;
-using IdentityApp.Data.Entities;
 using IdentityApp.Utilities.Email.Abstracts;
 using IdentityApp.Utilities.Email.Concrets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StylishApp.Data.Entities;
 
 namespace IdentityApp.Areas.Admin.Controllers
 {

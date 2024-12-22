@@ -2,28 +2,28 @@
 
 #nullable disable
 
-namespace IdentityApp.Migrations
+namespace StylishApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedAppUser : Migration
+    public partial class OrderStatusAdded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "SubscribeNewsletter",
-                table: "AspNetUsers",
-                type: "boolean",
+            migrationBuilder.AddColumn<int>(
+                name: "Status",
+                table: "Orders",
+                type: "integer",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "SubscribeNewsletter",
-                table: "AspNetUsers");
+                name: "Status",
+                table: "Orders");
         }
     }
 }
